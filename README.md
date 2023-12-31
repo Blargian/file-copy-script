@@ -1,2 +1,2 @@
-# file-copy-script
-A python script for dolder copying 
+# File Copy Utility
+A python script for folder copying 
