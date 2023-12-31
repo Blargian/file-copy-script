@@ -3,10 +3,12 @@
 import os
 import argparse
 import re
+import calendar
 from pathlib import Path
-from typing import List
+from typing import List, TypedDict
 
 SCRIPT_PATH = Path(__file__).absolute()
+
 
 def dir_name(name: str) -> Path:
     path = Path(name)
@@ -23,6 +25,29 @@ def get_folders_from_root(rootdir : Path) -> List[str]:
     for folder in filtered_folders:
         print(f'{folder}')
     return filtered_folders
+
+
+class FolderData(TypedDict):
+    foldername : str
+    tilename : str
+    month : str
+
+S2A_Folder = List[FolderData]
+def extract_name_date(filtered_folders : List[str]) -> S2A_Folder:
+    folder_data = list()
+    # regex extraction of tilename and month
+    regex_tilename = re.compile(r'(\D{3})_20')
+    regex_date = re.compile(r'MSIL2A_(\d{8})')
+    for folder in filtered_folders:
+        tilename = regex_tilename.search(folder).group(1)
+        date = regex_date.search(folder).group(0)
+        month = calendar.month_name[int(date[-4:-2])]
+        folder_data.append({
+            'foldername' : folder,
+            'tilename' : tilename,
+            'month' : month,
+            })
+    return folder_data
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
@@ -49,7 +74,8 @@ def main() -> None:
     args = parse_args()
     if args.mode == "default":
         print("Running script in default mode...")
-        S2A_folders = get_folders_from_root(args.root)
+        folders_attributes = extract_name_date(get_folders_from_root(args.root))
+        
 
     else:
         print("You have chosen to enter custom mode")
