@@ -6,8 +6,8 @@ A python script for ArcGIS folder copying
 - For each folder in the top directory:
   - extract the name before the second date, eg) `LTK`, extract the month from the folder name
   - make two directories in each folder with name: `Month_Name_bands` (eg `June_LTK_bands`) and `Month_Name_resampled` (eg `June_LTK_resampled`)
-  - For `Month_Name_bands` copy from `GRANULE` -> sub folder -> `IMG_DATA` -> `R20m` -> `B05 to B12`
-  - For `Month_Name_bands` copy from `GRANULE` -> sub folder -> `IMG_DATA` -> `R60m` -> `B01 + B09`
+  - To `Month_Name_bands` copy from `GRANULE` -> sub folder -> `IMG_DATA` -> `R20m` -> `B05 to B12`
+  - To `Month_Name_bands` copy from `GRANULE` -> sub folder -> `IMG_DATA` -> `R60m` -> `B01 + B09`
   - Has a default mode `--default` but also offers the ability to customise what is copied
 
 ## Usage
