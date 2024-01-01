@@ -24,6 +24,7 @@ def get_folders_from_root(rootdir : Path) -> List[str]:
     print("\nfound the following folders:")
     for folder in filtered_folders:
         print(f'{folder}')
+    print("\n")
     return filtered_folders
 
 
@@ -43,11 +44,23 @@ def extract_name_date(filtered_folders : List[str]) -> S2A_Folder:
         date = regex_date.search(folder).group(0)
         month = calendar.month_name[int(date[-4:-2])]
         folder_data.append({
-            'foldername' : folder,
+            'folderpath' : folder,
             'tilename' : tilename,
             'month' : month,
             })
     return folder_data
+
+def create_subfolder_from_parent(root : Path, folders_attributes : S2A_Folder, folder_ending : str):
+    print(f'creating subfolders for {folder_ending}')
+    for folder in folders_attributes:
+        parent_directory = folder["folderpath"]
+        path_to_make = f'{root}/{parent_directory}/{folder["month"]}_{folder["tilename"]}_{folder_ending}'
+        try:
+            if not os.path.exists(path_to_make):
+                os.makedirs(path_to_make)
+                print(f'successfully created: {path_to_make}')
+        except OSError as error:
+            print(error)
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
@@ -75,7 +88,8 @@ def main() -> None:
     if args.mode == "default":
         print("Running script in default mode...")
         folders_attributes = extract_name_date(get_folders_from_root(args.root))
-        
+        create_subfolder_from_parent(args.root,folders_attributes,"bands")
+        create_subfolder_from_parent(args.root,folders_attributes,"resampled")
 
     else:
         print("You have chosen to enter custom mode")
