@@ -12,7 +12,10 @@ A python script for ArcGIS folder copying
 
 ## Usage
 
-You will need python installed on your system and added to your environment variables. To run the script, open `cmd` in the folder where the script is and type
-`python file-copy --mode=default --root="{path to folder}"`
+You will need python 3.6 and above (lower than 3.6 will give an error about `f''` f-strings) installed on your system and added to your environment variables. To run the script, open `cmd` in the folder where the script is and type
+
+`python file-copy --mode=default --root="your path here"`
+
+Replacing `your path here` with the path to where your folders beginning `S2A_` are located. eg) `C:/Users/MyUser/FolderWithS2AFolders` 
 
 You can type `python file-copy --help` for details on script arguments
